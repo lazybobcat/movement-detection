@@ -25,7 +25,7 @@ public:
     void            saveToFile(const std::string& filepath) throw(std::exception);
     const Pixel     at(unsigned short x, unsigned short y) const;
 
-    void            setPixel(unsigned short x, unsigned short y, Pixel& pixel);
+    void            setPixel(unsigned short x, unsigned short y, const Pixel& pixel);
 
     unsigned short  width() const;
     unsigned short  height() const;

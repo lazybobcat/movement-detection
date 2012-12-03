@@ -2,11 +2,11 @@
 
 using namespace carto::ppm;
 
-Pixel::Back(0,0,0);
-Pixel::Red(255,0,0);
-Pixel::Green(0,255,0);
-Pixel::Blue(0,0,255);
-Pixel::White(255,255,255);
+const Pixel Pixel::Back(0,0,0);
+const Pixel Pixel::Red(255,0,0);
+const Pixel Pixel::Green(0,255,0);
+const Pixel Pixel::Blue(0,0,255);
+const Pixel Pixel::White(255,255,255);
 
 
 Pixel::Pixel(char red, char green, char blue)
