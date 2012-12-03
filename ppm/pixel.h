@@ -1,6 +1,9 @@
 #ifndef PIXEL_H
 #define PIXEL_H
 
+
+namespace carto
+{
 namespace ppm
 {
 
@@ -47,6 +50,7 @@ struct Pixel
     static const Pixel White;   ///< Pixel of white color : rgb(255,255,255)
 };
 
-}
+} // namespace ppm
+} // namespace carto
 
 #endif // PIXEL_H

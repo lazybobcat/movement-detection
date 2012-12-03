@@ -1,6 +1,6 @@
 #include "pixel.h"
 
-using namespace ppm;
+using namespace carto::ppm;
 
 Pixel::Back(0,0,0);
 Pixel::Red(255,0,0);
