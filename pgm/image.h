@@ -3,6 +3,7 @@
 
 #include <string>
 #include <exception>
+#include <vector>
 
 namespace carto
 {
@@ -11,6 +12,8 @@ namespace carto
         class Image
         {
         public:
+            typedef enum { ASCII, BINARY } IMG_TYPE;
+
             /**
              * @brief Constructor
              * Default pgm image constructor
@@ -66,9 +69,11 @@ namespace carto
              */
             void loadHeaderFromFile(std::ifstream &file);
 
+            IMG_TYPE            m_imgType;      ///< The image type (from magic number) (ASCII or BINARY for respectively "P2" and "P5")
             unsigned short      m_width;        ///< The image width in pixels
             unsigned short      m_height;       ///< The image height in pixels
             unsigned int        m_colorDepth;   ///< The color depth should be 65536 (from 0 to 65535)
+            std::vector<char>   m_pixels;       ///< The image's pixels
         };
     }
 }
