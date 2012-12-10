@@ -1,4 +1,5 @@
 #include "pixel.h"
+#include <iostream>
 
 using namespace carto::ppm;
 
@@ -9,9 +10,10 @@ const Pixel Pixel::Blue(0,0,255);
 const Pixel Pixel::White(255,255,255);
 
 
-Pixel::Pixel(char red, char green, char blue)
+Pixel::Pixel(unsigned char red, unsigned char green, unsigned char blue)
     : r(red), g(green), b(blue)
 {
+    //std::cout << "Create pixel (" << (int)r << ", " << (int)g << ", " << (int)b << ")" << std::endl;
 }
 
 Pixel::Pixel(const Pixel& copy)

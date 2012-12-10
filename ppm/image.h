@@ -20,21 +20,21 @@ public:
 
     ~Image();
 
-    void            create(unsigned short width, unsigned short height, unsigned char depth = 255);
+    void            create();
     void            loadFromFile(const std::string& filepath) throw(std::exception);
     void            saveToFile(const std::string& filepath) throw(std::exception);
-    const Pixel     at(unsigned short x, unsigned short y) const;
+    const Pixel&    at(unsigned short x, unsigned short y) const;
 
     void            setPixel(unsigned short x, unsigned short y, const Pixel& pixel);
 
     unsigned short  width() const;
     unsigned short  height() const;
-    unsigned char   depth() const;
+    unsigned short  depth() const;
 
 private:
     unsigned short      mWidth;         ///< The image width in pixels
     unsigned short      mHeight;        ///< The image height in pixels
-    unsigned char       mColorDepth;    ///< The color depth should be 256 (from 0 to 255), so an unsigned char is perfect
+    unsigned short      mColorDepth;    ///< The color depth (should be 255, but can be higher with better webcam)
     std::vector<Pixel>  mImage;         ///< The image without the first line (image informations) => table of pixels
 };
 

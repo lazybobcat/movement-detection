@@ -18,7 +18,7 @@ struct Pixel
      * @param green The green value [0,255]
      * @param blue The blue value [0,255]
      */
-    Pixel(char red = 0, char green = 0, char blue = 0);
+    Pixel(unsigned char red = 0, unsigned char green = 0, unsigned char blue = 0);
 
     /**
      * @brief Copy constructor, simply copy the rgb values
@@ -39,9 +39,9 @@ struct Pixel
      */
     bool operator==(const Pixel& other);
 
-    char    r; ///< The red value
-    char    g; ///< The green value
-    char    b; ///< The blue value
+    unsigned char    r; ///< The red value
+    unsigned char    g; ///< The green value
+    unsigned char    b; ///< The blue value
 
     static const Pixel Back;    ///< Pixel of black color : rgb(0,0,0)
     static const Pixel Red;     ///< Pixel of red color : rgb(255,0,0)
