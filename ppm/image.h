@@ -29,7 +29,7 @@ public:
 
     unsigned short  width() const;
     unsigned short  height() const;
-    unsigned char   depth() const;
+    unsigned short  depth() const;
 
 private:
     unsigned short      mWidth;         ///< The image width in pixels
