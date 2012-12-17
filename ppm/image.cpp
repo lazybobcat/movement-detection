@@ -29,6 +29,16 @@ Image::~Image()
 
 }
 
+Image& Image::operator=(const Image& copy)
+{
+    m_width = copy.m_width;
+    m_height = copy.m_height;
+    m_colorDepth = copy.m_colorDepth;
+    m_image.resize(copy.m_image.size());
+    m_image = copy.m_image;
+    return *this;
+}
+
 
 void Image::loadFromFile(const std::string &filepath) throw(std::exception)
 {
@@ -80,7 +90,6 @@ void Image::saveToFile(const std::string &filepath) throw(std::exception)
         throw std::ios_base::failure("The file cannot be opened");
 
     file << "P6 " << m_width << " " << m_height << " " << m_colorDepth;
-    std::cout << m_image.size() << std::endl;
 
     for(unsigned int i = 0; i < m_image.size(); ++i)
     {
@@ -91,6 +100,7 @@ void Image::saveToFile(const std::string &filepath) throw(std::exception)
     }
 
     file.close();
+    std::cout << "Image saved to " << filepath << std::endl;
 }
 
 

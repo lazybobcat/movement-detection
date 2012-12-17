@@ -18,6 +18,8 @@ public:
     Image();
     Image(const std::string& filepath); // Open the file directly
 
+    Image& operator=(const Image&);
+
     ~Image();
 
     void            create();

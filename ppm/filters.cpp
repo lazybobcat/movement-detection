@@ -2,27 +2,64 @@
 
 using namespace carto::ppm;
 
-void filterColor(carto::ppm::Image& image)
+carto::ppm::Image filterColor(carto::ppm::Image& image)
 {
-    for(unsigned int y = 0; y < image.height(); ++y)
+    carto::ppm::Image alteredImage = image;
+    for(unsigned int y = 0; y < alteredImage.height(); ++y)
     {
-        for(unsigned int x = 0; x < image.width(); ++x)
+        for(unsigned int x = 0; x < alteredImage.width(); ++x)
         {
-            Pixel p = image.at(x, y);
+            Pixel p = alteredImage.at(x, y);
             if(p.r > p.g)
             {
                 if(p.r > p.b)
-                    image.setPixel(x, y, Pixel::Red);
+                    alteredImage.setPixel(x, y, Pixel::Red);
                 else
-                    image.setPixel(x, y, Pixel::Blue);
+                    alteredImage.setPixel(x, y, Pixel::Blue);
             }
             else
             {
                 if(p.g > p.b)
-                    image.setPixel(x, y, Pixel::Green);
+                    alteredImage.setPixel(x, y, Pixel::Green);
                 else
-                    image.setPixel(x, y, Pixel::Blue);
+                    alteredImage.setPixel(x, y, Pixel::Blue);
             }
         }
     }
+    return alteredImage;
+}
+
+
+carto::ppm::Image filterGrey(carto::ppm::Image& image)
+{
+    carto::ppm::Image alteredImage = image;
+    for(unsigned int y = 0; y < alteredImage.height(); ++y)
+    {
+        for(unsigned int x = 0; x < alteredImage.width(); ++x)
+        {
+            Pixel p = alteredImage.at(x, y);
+            unsigned char average = p.greyValue();
+            alteredImage.setPixel(x, y, Pixel(average, average, average));
+        }
+    }
+    return alteredImage;
+}
+
+carto::ppm::Image filterDiff(carto::ppm::Image& image1, carto::ppm::Image& image2, unsigned char threshold)
+{
+    carto::ppm::Image alteredImage = image1;
+    for(unsigned int y = 0; y < alteredImage.height(); ++y)
+    {
+        for(unsigned int x = 0; x < alteredImage.width(); ++x)
+        {
+            Pixel pImg1 = image1.at(x, y);
+            Pixel pImg2 = image2.at(x, y);
+            Pixel value = pImg2-pImg1;
+            if(value.greyValue() < threshold)
+                alteredImage.setPixel(x, y, Pixel::Black);
+            else
+                alteredImage.setPixel(x, y, Pixel::White);
+        }
+    }
+    return alteredImage;
 }

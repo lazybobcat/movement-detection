@@ -3,7 +3,7 @@
 
 using namespace carto::ppm;
 
-const Pixel Pixel::Back(0,0,0);
+const Pixel Pixel::Black(0,0,0);
 const Pixel Pixel::Red(255,0,0);
 const Pixel Pixel::Green(0,255,0);
 const Pixel Pixel::Blue(0,0,255);
@@ -32,7 +32,53 @@ Pixel& Pixel::operator=(const Pixel& copy)
     return *this;
 }
 
+Pixel& Pixel::operator-(const Pixel& copy)
+{
+    if(r > copy.r)
+        r -= copy.r;
+    else
+        r = 0;
+
+    if(g > copy.g)
+        g -= copy.g;
+    else
+        g = 0;
+
+    if(b > copy.b)
+        b -= copy.b;
+    else
+        b = 0;
+
+    return *this;
+}
+
+Pixel& Pixel::operator+(const Pixel& copy)
+{
+    if(reinterpret_cast<int>(r + copy.r) > 255)
+        r = 255;
+    else
+        r += copy.r;
+
+    if(reinterpret_cast<int>(g + copy.g) > 255)
+        g = 255;
+    else
+        g += copy.g;
+
+    if(reinterpret_cast<int>(b + copy.b) > 255)
+        b = 255;
+    else
+        b += copy.b;
+
+    return *this;
+}
+
 bool Pixel::operator==(const Pixel& other)
 {
     return (r == other.r && g == other.g && b == other.b);
+}
+
+
+unsigned char Pixel::greyValue() const
+{
+    return (r+g+b) / 3;
 }
