@@ -18,6 +18,8 @@ public:
     Image();
     Image(const std::string& filepath); // Open the file directly
 
+    Image& operator=(const Image&);
+
     ~Image();
 
     void            create();
@@ -32,10 +34,10 @@ public:
     unsigned short  depth() const;
 
 private:
-    unsigned short      mWidth;         ///< The image width in pixels
-    unsigned short      mHeight;        ///< The image height in pixels
-    unsigned short      mColorDepth;    ///< The color depth (should be 255, but can be higher with better webcam)
-    std::vector<Pixel>  mImage;         ///< The image without the first line (image informations) => table of pixels
+    unsigned short      m_width;         ///< The image width in pixels
+    unsigned short      m_height;        ///< The image height in pixels
+    unsigned short      m_colorDepth;    ///< The color depth (should be 255, but can be higher with better webcam)
+    std::vector<Pixel>  m_image;         ///< The image without the first line (image informations) => table of pixels
 };
 
 } // namespace ppm

@@ -33,17 +33,31 @@ struct Pixel
     Pixel& operator=(const Pixel& copy);
 
     /**
+     * @brief Operator minus
+     * @param copy Substract pixels
+     */
+    Pixel& operator-(const Pixel& copy);
+
+    /**
+     * @brief Operator plus
+     * @param copy Add pixels
+     */
+    Pixel& operator+(const Pixel& copy);
+
+    /**
      * @brief Comparison operator
      * @param other The pixel to be compared to
-     * @return True if both Pixels are equals (if r, g and b values are equals wth the other pixel)
+     * @return True if both Pixels are equals (if r, g and b values are equals with the other pixel)
      */
     bool operator==(const Pixel& other);
+
+    unsigned char greyValue() const;
 
     unsigned char    r; ///< The red value
     unsigned char    g; ///< The green value
     unsigned char    b; ///< The blue value
 
-    static const Pixel Back;    ///< Pixel of black color : rgb(0,0,0)
+    static const Pixel Black;    ///< Pixel of black color : rgb(0,0,0)
     static const Pixel Red;     ///< Pixel of red color : rgb(255,0,0)
     static const Pixel Green;   ///< Pixel of green color : rgb(0,255,0)
     static const Pixel Blue;    ///< Pixel of blue color : rgb(0,0,255)
