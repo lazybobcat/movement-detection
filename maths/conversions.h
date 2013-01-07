@@ -1,7 +1,6 @@
 #ifndef CONVERSIONS_H
 #define CONVERSIONS_H
 
-#include <vector>
 #include "vector.h"
 
 namespace carto
@@ -35,12 +34,12 @@ namespace carto
         // Conversion functions for depth camera
         namespace pgm
         {
-            extern float fx;            ///< Focal Distance from camera to image
-            extern float fy;            ///< Focal Distance from camera to image
-            extern float cu;            ///< Camera Optical Center = projection of the camera center on the image
-            extern float cv;            ///< Camera Optical Center
-            extern std::vector<float> R;///< Rotation parameters (to RGB camera)
-            extern Vector3f T;          ///< Translation parameters (to RGB camera)
+            extern float fx;    ///< Focal Distance from camera to image
+            extern float fy;    ///< Focal Distance from camera to image
+            extern float cu;    ///< Camera Optical Center = projection of the camera center on the image
+            extern float cv;    ///< Camera Optical Center
+            extern float R[9];  ///< Rotation parameters (to RGB camera)
+            extern Vector3f T;  ///< Translation parameters (to RGB camera)
 
             /**
              * @brief Converts the coordinates of a local pixel in world coordinates.
