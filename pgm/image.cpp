@@ -46,13 +46,3 @@ pgm::Image &pgm::Image::operator=(const pgm::Image &ori)
 
     return *this;
 }
-
-int main()
-{
-    pgm::Image a("/home/celforyon/projet/projet/pgm/test.pgm");
-    a.saveToFile("/home/celforyon/projet/projet/pgm/save.pgm");
-
-    return 0;
-}
-
-
