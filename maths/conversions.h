@@ -18,9 +18,10 @@ namespace carto
             /**
              * @brief Converts the coordinates of a local pixel in world coordinates. The depth we take is 1.
              * @param pixel The pixel position to convert
+             * @param depth The pixel depth in meters
              * @return A vector with world coordinates (the depth [z] coordinates is 1)
              */
-            Vector3f toRGBCameraCoordinates(const Vector2u& pixel);
+            Vector3f toRGBCameraCoordinates(const Vector2u& pixel, const float depth);
 
             /**
              * @brief Converts a world coordinate into a local (image) coordinate.
@@ -41,9 +42,10 @@ namespace carto
             /**
              * @brief Converts the coordinates of a local pixel in world coordinates. The depth we take is 1.
              * @param pixel The pixel position to convert
+             * @param depth The pixel depth in meters
              * @return A vector with world coordinates (the depth [z] coordinates is 1)
              */
-            Vector3f toRGBCameraCoordinates(const Vector2u& pixel);
+            Vector3f toRGBCameraCoordinates(const Vector2u& pixel, const float depth);
 
             /**
              * @brief Converts a world coordinate into a local (image) coordinate.
