@@ -46,11 +46,21 @@ namespace carto
             ~Image();
 
             /**
-             * @brief Getter for an image's pixel depth
+             * @brief Getter for an image's pixel depth in meters
              * x is the x coord into the image
              * y is the y coord into the image
              */
-            float getDepth(unsigned x, unsigned y) const;
+            float depth(unsigned x, unsigned y) const;
+
+            /**
+             * @brief Getter for the image's width
+             */
+            unsigned int width() const;
+
+            /**
+             * @brief Getter for the image's height. The 40% top are black
+             */
+            unsigned int height() const;
 
             /**
              * @brief Load an image from a file

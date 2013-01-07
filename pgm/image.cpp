@@ -24,7 +24,7 @@ pgm::Image::~Image()
 {
 }
 
-float pgm::Image::getDepth(unsigned x, unsigned y) const
+float pgm::Image::depth(unsigned x, unsigned y) const
 {
     unsigned short depth = m_pixels.at(y * m_width + x);
 
@@ -32,6 +32,16 @@ float pgm::Image::getDepth(unsigned x, unsigned y) const
        return 1.f / (depth * -0.0030711016 + 3.3309495161);
 
     return 0.f;
+}
+
+unsigned int pgm::Image::width() const
+{
+    return m_width;
+}
+
+unsigned int pgm::Image::height() const
+{
+    return m_height;
 }
 
 pgm::Image &pgm::Image::operator=(const pgm::Image &ori)
