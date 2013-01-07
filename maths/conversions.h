@@ -2,7 +2,6 @@
 #define CONVERSIONS_H
 
 #include <vector>
-
 #include "vector.h"
 
 namespace carto
