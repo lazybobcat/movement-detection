@@ -33,7 +33,7 @@ Vector3f::Vector3f(const Vector3f &v3f)
 }
 
 Vector3f::Vector3f(const Vector2u &v2u)
-	: x(v2u.x), y(v2u.y), z(0)
+        : x((float) v2u.x), y((float) v2u.y), z(0)
 {
 }
 
