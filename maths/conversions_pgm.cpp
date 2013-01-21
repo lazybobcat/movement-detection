@@ -37,12 +37,10 @@ Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
     // Rotate
     float rgb_x = R[0] * x + R[1] * y + R[2] * z;
     float rgb_y = R[3] * x + R[4] * y + R[5] * z;
-    float rgb_z = R[6] * x + R[7] * y + R[8] * z;
 
     // Translate
     rgb_x += T.x;
     rgb_y += T.y;
-    rgb_z += T.z;
 
 /*
     // Application of correction function
