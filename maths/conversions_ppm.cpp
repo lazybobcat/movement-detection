@@ -1,9 +1,10 @@
 #include "conversions.h"
+#include <cmath>
 
 using namespace carto::maths;
 
 /*
-Paramètres intrasèques à la caméra :
+Paramètres intrinsèques à la caméra :
 Cu : Centre optique de la caméra
 Cv : Centre optique de la caméra = projection du centre de la caméra dans l'image
 Fx : Distance focales
@@ -63,13 +64,26 @@ float ppm::cv = 2.6748068171871557e+02;
 
 Vector3f ppm::toRGBCameraCoordinates(const Vector2u& pixel, const float depth)
 {
-    // Passage des coordonnées image en coordonnées "monde réel"
-    // x = ((u - Cu)*z)/Fx  où u = pixel.x
-    // y = ((v - Cv)*z)/Fy  où v = pixel.y
+    // We convert image coordinates into "world" coordinates (relative to RGB camera)
+    // x = ((u - Cu)*z)/Fx  where u = pixel.x
+    // y = ((v - Cv)*z)/Fy  where v = pixel.y
     // z = depth (found with depth camera)
     float z = depth;
     float x = ((pixel.x - ppm::cu)*z)/ppm::fx;
     float y = ((pixel.y - ppm::cv)*z)/ppm::fy;
 
     return Vector3f(x, y, z);
+}
+
+
+Vector2u ppm::toRGBImageCoordinates(const Vector3f& position)
+{
+    // We convert "world" coordinates (relative to RGB camera) into image coordinates
+    // Pinhole model
+    // u = (x*Fx)/z + Cu where (x, y, z) = position
+    // v = (y*Fy)/z + Cv where (x, y, z) = position
+    unsigned int u = (unsigned int)(roundf((position.x * ppm::fx) / position.z + ppm::cu));
+    unsigned int v = (unsigned int)(roundf((position.y * ppm::fy) / position.z + ppm::cv));
+
+    return Vector2u(u, v);
 }
