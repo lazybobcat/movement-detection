@@ -50,8 +50,8 @@ t = (yt)
 
 R = (ax, ay, az) -> convertie en matrice [3x3] donnée
 
-ptsP = (xd, yx, zd)
-On veut ptsRGB qui correspond à ptsP
+ptsD = (xd, yd, zd)
+On veut ptsRGB qui correspond à ptsD
 ptsRGB = R * ptsD + t
 
 
