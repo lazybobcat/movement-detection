@@ -48,6 +48,10 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
           This save the 60% of the image's bottom, keeping the original image size
           for compatibility with the other format (ppm)
           */
+        // HERE
+        // alors, décommenter la ligne ci dessous pour ne plus appliquer le filtre noir :
+
+        // start = 0; // don't fill with black
         for(unsigned i = 0; i < start; ++i)
             m_pixels.push_back(0);
         for(unsigned i = start; i < fullsize; ++i)
@@ -137,4 +141,14 @@ void pgm::Image::loadHeaderFromFile(std::ifstream &file)
 
     ss >> m_width >> m_height >> m_colorDepth;
     m_start = m_height * .4;
+}
+
+void pgm::Image::close()
+{
+    m_pixels.clear();
+    m_width = 0;
+    m_height = 0;
+    m_imgType = UNKNOWN;
+    m_colorDepth = 255;
+    m_start = 0;
 }
