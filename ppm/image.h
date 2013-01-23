@@ -26,6 +26,7 @@ public:
     void            loadFromFile(const std::string& filepath) throw(std::exception);
     void            saveToFile(const std::string& filepath) throw(std::exception);
     const Pixel&    at(unsigned short x, unsigned short y) const;
+    void            close();
 
     void            setPixel(unsigned short x, unsigned short y, const Pixel& pixel);
 
@@ -34,6 +35,8 @@ public:
     unsigned short  depth() const;
 
 private:
+    void            loadHeaderFromFile(std::ifstream &file);
+
     unsigned short      m_width;         ///< The image width in pixels
     unsigned short      m_height;        ///< The image height in pixels
     unsigned short      m_colorDepth;    ///< The color depth (should be 255, but can be higher with better webcam)

@@ -3,21 +3,22 @@
 using namespace carto;
 
 pgm::Image::Image()
+    : m_imgType(UNKNOWN), m_width(0), m_height(0),
+    m_start(0), m_colorDepth(255)
 {
 }
 
 pgm::Image::Image(const std::string &filepath)
+    : m_imgType(UNKNOWN), m_width(0), m_height(0),
+    m_start(0), m_colorDepth(255)
 {
     loadFromFile(filepath);
 }
 
 pgm::Image::Image(const pgm::Image &ori)
+    : m_imgType(ori.m_imgType), m_width(ori.m_width), m_height(ori.m_height),
+    m_start(ori.m_start), m_colorDepth(ori.m_colorDepth), m_pixels(ori.m_pixels)
 {
-    m_imgType = ori.m_imgType;
-    m_width = ori.m_width;
-    m_height = ori.m_height;
-    m_start = ori.m_start;
-    m_pixels = ori.m_pixels;
 }
 
 pgm::Image::~Image()

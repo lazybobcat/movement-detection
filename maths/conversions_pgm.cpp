@@ -13,6 +13,18 @@ float pgm::R[9] = {9.9984628826577793e-01, 1.2635359098409581e-03, -1.7487233004
                    -1.4779096108364480e-03, 9.9992385683542895e-01, -1.2251380107679535e-02,
                    1.7470421412464927e-02, 1.2275341476520762e-02, 9.9977202419716948e-01};
 Vector3f pgm::T = Vector3f(1.9985242312092553e-02, -7.4423738761617583e-04, -1.0916736334336222e-02);
+/*
+float pgm::cx = 1.0950266051;
+float pgm::cy = .9124876196;
+float pgm::ox = .04651979;
+float pgm::oy = .0518825414;
+//*/
+/*
+float pgm::cx = .9760954873;
+float pgm::cy = .8915603106;
+float pgm::ox = .0382362501;
+float pgm::oy = .0230908135;
+//*/
 
 Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
 {
@@ -22,39 +34,37 @@ Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
     float x = ((pixel.x - pgm::cu) * z) / pgm::fx;
     float y = ((pixel.y - pgm::cv) * z) / pgm::fy;
 
-/*
-    // Translate
-    x -= T.x;
-    y -= T.y;
-    z -= T.z;
-//*/
-/*
-    // Rotate
-    float rgb_x = R[0] * x + R[3] * y + R[6] * z;
-    float rgb_y = R[1] * x + R[4] * y + R[7] * z;
-    float rgb_z = R[2] * x + R[5] * y + R[8] * z;
-//*/
-//*
     // Rotate
     float rgb_x = R[0] * x + R[1] * y + R[2] * z;
     float rgb_y = R[3] * x + R[4] * y + R[5] * z;
-    float rgb_z = R[6] * x + R[7] * y + R[8] * z;
-//*/
-//*
+
     // Translate
     rgb_x += T.x;
     rgb_y += T.y;
-    rgb_z += T.z;
-//*/
-    //float rgb_x = x, rgb_y = y, rgb_z = z;
 
-    return Vector3f(rgb_x, rgb_y, rgb_z);
+/*
+    // Application of correction function
+    rgb_x = (rgb_x - pgm::ox) / pgm::cx;
+    rgb_y = (rgb_y - pgm::oy) / pgm::cy;
+//*/
+
+    return Vector3f(rgb_x, rgb_y, z);
 }
 
 Vector2u pgm::toDepthImageCoordinates(const Vector3f &position)
 {
-    float x = position.x - T.x;
-    float y = position.y - T.y;
+    float x = position.x;
+    float y = position.y;
+
+/*
+    // Unapplication of correction function
+    x = pgm::cx * x + pgm::ox;
+    y = pgm::cy * y + pgm::oy;
+//*/
+
+    // Translate
+    x -= T.x;
+    y -= T.y;
 
     /* In our case, R^-1 can be made like this :
 [ a b c

@@ -17,7 +17,7 @@ namespace carto
         class Image
         {
         public:
-            typedef enum { ASCII, BINARY } IMG_TYPE;
+            typedef enum { UNKNOWN, ASCII, BINARY } IMG_TYPE;
 
             /**
              * @brief Constructor
@@ -82,6 +82,11 @@ namespace carto
              * @return Reference to the Image, for multiple affectation (a = b = c)
              */
             Image &operator=(const Image &ori);
+
+            /**
+             * @brief Close the opened image and
+             */
+            void close();
 
         private:
             /**

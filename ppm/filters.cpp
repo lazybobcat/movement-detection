@@ -2,6 +2,34 @@
 
 using namespace carto::ppm;
 
+
+carto::ppm::Image filterThresholdBinarisation(carto::ppm::Image& image, const carto::ppm::Pixel& thresholdMin, const carto::ppm::Pixel& thresholdMax)
+{
+    carto::ppm::Image alteredImage = image;
+    for(unsigned int y = 0; y < alteredImage.height(); ++y)
+    {
+        for(unsigned int x = 0; x < alteredImage.width(); ++x)
+        {
+            // Get the image pixel at (x,y)
+            Pixel p = alteredImage.at(x, y);
+
+            // If the pixel isn't in the threshold, we set the pixel to black
+            if(p.r < thresholdMin.r || p.g < thresholdMin.g || p.b < thresholdMin.b || p.r > thresholdMax.r || p.g > thresholdMax.g || p.b > thresholdMax.b)
+            {
+                alteredImage.setPixel(x, y, carto::ppm::Pixel::Black);
+            }
+            // Else the pixel is in the threshold, we set the pixel to white
+            else
+            {
+                alteredImage.setPixel(x, y, carto::ppm::Pixel::White);
+            }
+        }
+    }
+    return alteredImage;
+}
+
+
+
 carto::ppm::Image filterColor(carto::ppm::Image& image)
 {
     carto::ppm::Image alteredImage = image;
