@@ -1,4 +1,5 @@
 #include "image.h"
+#include <sstream>
 #include <iostream>
 #include <fstream>
 
@@ -39,6 +40,51 @@ Image& Image::operator=(const Image& copy)
     return *this;
 }
 
+void Image::loadHeaderFromFile(std::ifstream &file)
+{
+    char            c;              // the char read with file.get
+    char            bin[1024];      // unused data read
+    std::string     magic_num;      // magic number (we want a P6)
+
+    /*
+      data will contain :
+        P6
+        the image width
+        the image height
+        the image maximum depth (from 0 to 255)
+      with a space between each data and possible comments
+     */
+    std::string     data;
+    unsigned        datacount = 0;  // current data read
+
+    while(datacount < 4)
+    {
+        file.get(c);
+
+        /*  SPACE  || HT, LF, VT, FF, CR
+            these chars are data separators
+         */
+        if(c == ' ' || (c >= 9 && c <= 13))
+        {
+            ++datacount;                    // go to next data
+            data += " ";                    // adding space separator between datas
+        }
+        else if(c == '#')                   // # indicate that all line at its right is comment
+            file.getline(bin, 1024);        // read the full line into unused variable
+        else
+            data += c;                      // append the caracter read to current data
+    }
+
+    std::stringstream ss(data);
+    ss >> magic_num;
+
+    // If the file isn't a P6 type, then we cannot do anything
+    if(magic_num != "P6")
+        throw std::ios_base::failure("Wrong file type !");
+
+    ss >> m_width >> m_height >> m_colorDepth;
+}
+
 
 void Image::loadFromFile(const std::string &filepath) throw(std::exception)
 {
@@ -49,25 +95,16 @@ void Image::loadFromFile(const std::string &filepath) throw(std::exception)
     if(!file.is_open())
         throw std::ios_base::failure("The file cannot be opened");
 
-    // We want to read the type of the file/magic number (for a binary ppm, it should be: P6)
-    char fileType[3] = {0,0,0}; // Init it to 0 to have a null end caracter to terminate the string
-    file.read(fileType, 2);     // Read 2 caracters
+    // Extract data from image header (type, size, depth)
+    loadHeaderFromFile(file);
 
-    // If the file isn't a P6 type, then we cannot do anything
-    if(std::string(fileType) != "P6")
-        throw std::ios_base::failure("Wrong file type !");
-
-    // Extract the header from file
-    file >> m_width >> m_height >> m_colorDepth;
-
-    std::cout << "Image " << filepath << ": " << fileType << ", " << m_width << "x" << m_height << "x" << m_colorDepth << std::endl;
+    std::cout << "Image " << filepath << ": " << "P6" << ", " << m_width << "x" << m_height << "x" << m_colorDepth << std::endl;
 
     // Create the image in memory
     create();
 
     // Extract pixels
     unsigned char red, green, blue;
-    unsigned int i = 0;
     while(!file.eof())
     {
         file.read(reinterpret_cast<char*>(&red), sizeof(unsigned char));
@@ -75,7 +112,6 @@ void Image::loadFromFile(const std::string &filepath) throw(std::exception)
         file.read(reinterpret_cast<char*>(&blue), sizeof(unsigned char));
 
         m_image.push_back(Pixel(red, green, blue));
-        ++i;
 
         //std::cout << "Pixel : " << (int)red << " " << (int)green << " " << (int)blue << std::endl;
     }
@@ -89,7 +125,7 @@ void Image::saveToFile(const std::string &filepath) throw(std::exception)
     if(!file.is_open())
         throw std::ios_base::failure("The file cannot be opened");
 
-    file << "P6 " << m_width << " " << m_height << " " << m_colorDepth;
+    file << "P6 " << m_width << " " << m_height << " " << m_colorDepth << "\n";
 
     for(unsigned int i = 0; i < m_image.size(); ++i)
     {
@@ -107,6 +143,13 @@ void Image::saveToFile(const std::string &filepath) throw(std::exception)
 void Image::create()
 {
     m_image.reserve(m_width*m_height);
+}
+
+void Image::close()
+{
+    m_image.clear();
+    m_width = 0;
+    m_height = 0;
 }
 
 void Image::setPixel(unsigned short x, unsigned short y, const Pixel &pixel)
