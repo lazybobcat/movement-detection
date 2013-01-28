@@ -40,6 +40,10 @@ namespace carto
             extern float cv;    ///< Camera Optical Center
             extern float R[9];  ///< Rotation parameters (to RGB camera)
             extern Vector3f T;  ///< Translation parameters (to RGB camera)
+            extern float cx;    ///< Correction for x coordinate
+            extern float cy;    ///< Correction for y coordinate
+            extern float ox;    ///< Correction offset for x coordinate
+            extern float oy;    ///< Correction offset for y coordinate
 
             /**
              * @brief Converts the coordinates of a local pixel in world coordinates.

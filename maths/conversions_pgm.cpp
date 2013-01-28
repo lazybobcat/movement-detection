@@ -37,34 +37,26 @@ Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
     // Rotate
     float rgb_x = R[0] * x + R[1] * y + R[2] * z;
     float rgb_y = R[3] * x + R[4] * y + R[5] * z;
+    float rgb_z = R[6] * x + R[7] * y + R[8] * z;
 
     // Translate
     rgb_x += T.x;
     rgb_y += T.y;
+    rgb_z += T.z;
 
-/*
-    // Application of correction function
-    rgb_x = (rgb_x - pgm::ox) / pgm::cx;
-    rgb_y = (rgb_y - pgm::oy) / pgm::cy;
-//*/
-
-    return Vector3f(rgb_x, rgb_y, z);
+    return Vector3f(rgb_x, rgb_y, rgb_z);
 }
 
 Vector2u pgm::toDepthImageCoordinates(const Vector3f &position)
 {
     float x = position.x;
     float y = position.y;
-
-/*
-    // Unapplication of correction function
-    x = pgm::cx * x + pgm::ox;
-    y = pgm::cy * y + pgm::oy;
-//*/
+    float z = position.z;
 
     // Translate
     x -= T.x;
     y -= T.y;
+    z -= T.z;
 
     /* In our case, R^-1 can be made like this :
 [ a b c
@@ -75,11 +67,12 @@ Vector2u pgm::toDepthImageCoordinates(const Vector3f &position)
   b e h
   c f i ] */
 
-    float dx = R[0] * x + R[3] * y + R[6] * (position.z - T.z);
-    float dy = R[1] * x + R[4] * y + R[7] * (position.z - T.z);
+    float dx = R[0] * x + R[3] * y + R[6] * z;
+    float dy = R[1] * x + R[4] * y + R[7] * z;
+    float dz = R[2] * x + R[5] * y + R[8] * z;
 
-    unsigned int u = (unsigned int)(roundf((dx * pgm::fx) / position.z + pgm::cu));
-    unsigned int v = (unsigned int)(roundf((dy * pgm::fy) / position.z + pgm::cv));
+    unsigned int u = (unsigned int)(roundf((dx * pgm::fx) / dz + pgm::cu));
+    unsigned int v = (unsigned int)(roundf((dy * pgm::fy) / dz + pgm::cv));
 
     return Vector2u(u, v);
 }
