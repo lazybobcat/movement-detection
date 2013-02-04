@@ -72,7 +72,7 @@ Pixel& Pixel::operator+(const Pixel& copy)
     return *this;
 }
 
-bool Pixel::operator==(const Pixel& other)
+bool Pixel::operator==(const Pixel& other) const
 {
     return (r == other.r && g == other.g && b == other.b);
 }
