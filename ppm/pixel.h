@@ -49,7 +49,7 @@ struct Pixel
      * @param other The pixel to be compared to
      * @return True if both Pixels are equals (if r, g and b values are equals with the other pixel)
      */
-    bool operator==(const Pixel& other);
+    bool operator==(const Pixel& other) const;
 
     unsigned char greyValue() const;
 

@@ -145,6 +145,16 @@ void Image::create()
     m_image.reserve(m_width*m_height);
 }
 
+void Image::create(unsigned int width, unsigned int height)
+{
+    m_image.reserve(width*height);
+    m_width = width;
+    m_height = height;
+    m_colorDepth = 255;
+    for(unsigned int i = 0; i < width*height; ++i)
+        m_image.push_back(Pixel(0, 0, 0));
+}
+
 void Image::close()
 {
     m_image.clear();
