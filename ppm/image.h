@@ -23,6 +23,7 @@ public:
     ~Image();
 
     void            create();
+    void            create(unsigned int width, unsigned int heigh);
     void            loadFromFile(const std::string& filepath) throw(std::exception);
     void            saveToFile(const std::string& filepath) throw(std::exception);
     const Pixel&    at(unsigned short x, unsigned short y) const;
