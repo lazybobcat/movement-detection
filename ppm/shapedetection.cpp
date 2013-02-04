@@ -34,13 +34,7 @@ int numerotation(carto::ppm::Image& binarizedImage, std::vector<int>& numerotedI
                     // Get the TOP pixel index in the vector
                     int index = (j-1)*binarizedImage.width() + (i-1);
 
-                    // If the pixel has already been set and is different than the looked pixel
-                    if(pixelNumber != 0 && pixelNumber != numerotedImage[index])
-                    {
-                        numbersTable[numerotedImage[index]] = pixelNumber;
-                    }
-                    else
-                        pixelNumber = numerotedImage[index];
+                    pixelNumber = numerotedImage[index];
                 }
 
 
@@ -96,10 +90,15 @@ int numerotation(carto::ppm::Image& binarizedImage, std::vector<int>& numerotedI
                 // If none of the neighbors pixels has been set
                 if(pixelNumber == 0)
                 {
-                    // Get the actual pixel index
                     int index = j*binarizedImage.width() + i;
                     numerotedImage[index] = ++actualNumber;
                 }
+                else
+                {
+                    int index = j*binarizedImage.width() + i;
+                    numerotedImage[index] = pixelNumber;
+                }
+
 
             }
         }
@@ -107,7 +106,6 @@ int numerotation(carto::ppm::Image& binarizedImage, std::vector<int>& numerotedI
 
     return actualNumber;
 }
-
 
 
 
