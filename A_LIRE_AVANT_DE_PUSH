@@ -1,8 +1,0 @@
-Alexis Pereda a dit :
-J'ai modifié les fichiers
- + conversions.h
- + conversions_pgm.cpp
-entre autres.
-
-Merci de ne pas faire de push de ces fichiers, je pourrai push ce soir,
-j'ai pas de connexion à l'IUT.

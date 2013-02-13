@@ -26,25 +26,32 @@ float pgm::ox = .0382362501;
 float pgm::oy = .0230908135;
 //*/
 
-Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
+Vector3f pgm::toRealCoordinates(const Vector2u &pixel, const float depth)
 {
-    // z = depth (found with depth camera)
-    // x, y, z into the depth camera's plan
+	// z = depth (found with depth camera)
+    // x, y, z into the depth real's plan
     float z = depth;
     float x = ((pixel.x - pgm::cu) * z) / pgm::fx;
     float y = ((pixel.y - pgm::cv) * z) / pgm::fy;
+    
+    return Vector3f(x, y, z);
+}
+
+Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
+{    
+    Vector3f real = toRealCoordinates(pixel, depth);
 
     // Rotate
-    float rgb_x = R[0] * x + R[1] * y + R[2] * z;
-    float rgb_y = R[3] * x + R[4] * y + R[5] * z;
-    float rgb_z = R[6] * x + R[7] * y + R[8] * z;
+    float x = R[0] * real.x + R[1] * real.y + R[2] * real.z;
+    float y = R[3] * real.x + R[4] * real.y + R[5] * real.z;
+    float z = R[6] * real.x + R[7] * real.y + R[8] * real.z;
 
     // Translate
-    rgb_x += T.x;
-    rgb_y += T.y;
-    rgb_z += T.z;
+    x += T.x;
+    y += T.y;
+    z += T.z;
 
-    return Vector3f(rgb_x, rgb_y, rgb_z);
+    return Vector3f(x, y, z);
 }
 
 Vector2u pgm::toDepthImageCoordinates(const Vector3f &position)

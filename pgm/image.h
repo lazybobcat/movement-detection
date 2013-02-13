@@ -44,14 +44,34 @@ namespace carto
              * pgm::Image class destructor
              */
             ~Image();
+            
+            /**
+             * @brief Convert a pixel distance to a meters distance
+             * @param d the distance in pixels
+             * @return the converted distance in meters
+             */
+            static inline float toMeters(unsigned short d)
+            {
+            	if(d < 2047.f)
+       				return 1.f / (d * -0.0030711016 + 3.3309495161);
+       				
+       			return 0.f;
+            }
 
             /**
              * @brief Getter for an image's pixel depth in meters
              * x is the x coord into the image
              * y is the y coord into the image
+             * @return the pixel's depth in meters
              */
             float depth(unsigned x, unsigned y) const;
 
+			/**
+			 * @brief Getter for the image maximum depth in meters
+			 * @return the maximum depth in meters
+			 */
+			float maxDepth() const;
+			 
             /**
              * @brief Getter for the image's width
              */

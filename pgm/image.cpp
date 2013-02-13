@@ -27,12 +27,15 @@ pgm::Image::~Image()
 
 float pgm::Image::depth(unsigned x, unsigned y) const
 {
-    unsigned short depth = m_pixels.at(y * m_width + x);
-
-    if(depth < 2047.f)
-       return 1.f / (depth * -0.0030711016 + 3.3309495161);
-
-    return 0.f;
+    return toMeters(m_pixels.at(y * m_width + x));
+}
+#include <iostream>
+float pgm::Image::maxDepth() const 
+{
+	float max = toMeters(*m_pixels.begin());
+	for(std::vector<unsigned short>::const_iterator it = m_pixels.begin(); it != m_pixels.end(); ++it)
+		if(max < toMeters(*it))	max = toMeters(*it);
+	return max;
 }
 
 unsigned int pgm::Image::width() const

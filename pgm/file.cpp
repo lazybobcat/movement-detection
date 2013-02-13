@@ -36,9 +36,6 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
 
     switch(m_imgType)
     {
-    case ASCII:
-        // To do
-        break;
     case BINARY:
         file.read((char *)data, fullsize * sizeof(unsigned short));
 
@@ -58,6 +55,7 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
             m_pixels.push_back(data[i]);
 
         break;
+    default:;
     }
 
     delete [] data;
@@ -74,15 +72,6 @@ void pgm::Image::saveToFile(const std::string& filepath) throw(std::exception)
 
     switch(m_imgType)
     {
-    case ASCII:/*
-        file << "P2\n# Saved by Robot Project\n" << m_width << " " << m_height << std::endl << m_colorDepth << std::endl;
-
-        for(unsigned i = 0; i < m_pixels.size(); ++i)
-        {
-            if(!(i % m_width) && i)  file << std::endl;
-            file << m_pixels[i] << "  ";    // Two spaces for format
-        }
-        */break;
     case BINARY:
         file << "P5\n# Saved by Robot Project\n" << m_width << " " << m_height << std::endl << m_colorDepth << std::endl;
 
@@ -90,6 +79,7 @@ void pgm::Image::saveToFile(const std::string& filepath) throw(std::exception)
             // It is not possible to use << operator for write binary datas
             file.write(reinterpret_cast<const char *>(&m_pixels[i]), sizeof(unsigned short));
         break;
+    default:;
     }
     file.close();
 }

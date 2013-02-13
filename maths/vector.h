@@ -10,7 +10,7 @@ namespace carto
 			unsigned int x;
 			unsigned int y;
 
-            Vector2u(unsigned int x, unsigned int y);
+            Vector2u(unsigned int x = 0, unsigned int y = 0);
 			Vector2u(const Vector2u &v2u);
 			
             Vector2u& operator=(const Vector2u &ori);
@@ -22,8 +22,8 @@ namespace carto
 			float y;
 			float z;
 
-			Vector3f(float x, float y, float z);
-                        Vector3f(const Vector3f &v3f);
+			Vector3f(float x = 0, float y = 0, float z = 0);
+            Vector3f(const Vector3f &v3f);
 			Vector3f(const Vector2u &v2u);
 
             Vector3f& operator=(const Vector3f &ori);

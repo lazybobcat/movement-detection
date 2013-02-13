@@ -45,11 +45,19 @@ namespace carto
             extern float ox;    ///< Correction offset for x coordinate
             extern float oy;    ///< Correction offset for y coordinate
 
+			/**
+			 * @brief 
+			 * @param pixel The pixel's position to convert
+			 * @param depth The pixel's depth in meters (found with depth camera)
+			 * @return A vector with real coordinates
+			 */
+			Vector3f toRealCoordinates(const Vector2u &pixel, const float depth);
+
             /**
              * @brief Converts the coordinates of a local pixel in world coordinates.
-             * @param pixel The pixel position to convert
-             * @param depth The pixel depth in meters (found with depth camera)
-             * @return A vector with world coordinates (the depth [z] coordinates is 1)
+             * @param pixel The pixel's position to convert
+             * @param depth The pixel's depth in meters (found with depth camera)
+             * @return A vector with RGB Camera coordinates
              */
             Vector3f toRGBCameraCoordinates(const Vector2u &pixel, const float depth);
 
