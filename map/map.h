@@ -61,7 +61,7 @@ namespace carto
          * @param T : vector of translation
          * @return The translated map
          */
-        Map translated(const maths::Vector3f &T) const;
+        Map translated(const maths::Vector2d &T) const;
         
         /**
          * @brief Returns a rotated map. Do not modify the map itself
@@ -76,7 +76,7 @@ namespace carto
          * @param R : matrix of rotation 2*2
          * @return The translated then rotated map
          */
-        Map tr_map(const maths::Vector3f &T, const float *R) const;
+        Map tr_map(const maths::Vector2d &T, const float *R) const;
         
         /**
          * @brief Returns a rotated then translated map. Do not modify the map itself
@@ -84,7 +84,7 @@ namespace carto
          * @param T : vector of translation
          * @return The rotated then translated map
          */
-        Map rt_map(const float *R, const maths::Vector3f &T) const;
+        Map rt_map(const float *R, const maths::Vector2d &T) const;
          
          /**
           * @brief Operator +

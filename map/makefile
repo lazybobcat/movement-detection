@@ -1,10 +1,11 @@
 CXX=g++
 CXXFLAGS=-W -Wall -ansi -pedantic
+LDFLAGS=-L . -lmaths -limage_pgm
 
 all: map
 
 map: main.o map.o
-	$(CXX) -o $@ $^ file.o image.o conversions_pgm.o vector.o
+	$(CXX) -o $@ $^ $(LDFLAGS)
 
 main.o: main.cpp map.h
 	$(CXX) $(CXXFLAGS) -o $@ -c $<

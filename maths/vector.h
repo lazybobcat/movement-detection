@@ -15,6 +15,18 @@ namespace carto
 			
             Vector2u& operator=(const Vector2u &ori);
         };
+        
+        struct Vector2d
+		{
+			int x;
+			int y;
+
+            Vector2d(int x = 0, int y = 0);
+			Vector2d(const Vector2d &v2d);
+			Vector2d(const Vector2u &v2u);
+			
+            Vector2d &operator=(const Vector2d &ori);
+        };
 
 		struct Vector3f
 		{
@@ -27,7 +39,6 @@ namespace carto
 			Vector3f(const Vector2u &v2u);
 
             Vector3f& operator=(const Vector3f &ori);
-
         };
 	}
 }

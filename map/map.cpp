@@ -4,8 +4,10 @@
 
 #include "map.h"
 #include "../maths/conversions.h"
+#include "../maths/matrix.h"
 
 using namespace carto;
+using namespace carto::maths;
 
 Map::Map(const pgm::Image &pgmImage, unsigned short w, unsigned short h)
 	: w(w)
@@ -40,7 +42,7 @@ void Map::makeMap(const pgm::Image &pgmImage)
     for(unsigned x = 0, y = pgmImage.height()*.5; x < pgmImage.width(); ++x)
 	{
 		// get the map x and y position
-		unsigned posx = 100 * (maths::pgm::toRealCoordinates(maths::Vector2u(x, y), pgmImage.depth(x, y)).x + 5);
+		unsigned posx = 100 * (maths::pgm::toRealCoordinates(Vector2u(x, y), pgmImage.depth(x, y)).x + 5);
 		unsigned posy = 100 * pgmImage.depth(x, y);
 
 		m_binaryMap[posy * w + posx] = true;
@@ -68,16 +70,16 @@ void Map::saveMap(const std::string &fileName) const
 /*
  * T.z is not used because this map is 2D
  */
-Map Map::translated(const maths::Vector3f &T) const
+Map Map::translated(const maths::Vector2d &T) const
 {
 	Map m(w, h);
 	
 	for(unsigned x = 0; x < w; ++x)
 		for(unsigned y = 0; y < h; ++y)
 		{
-			int px = x + T.x, py = y + T.y;
-			if(px >= 0 && px < w && py >= 0 && py < h)
-				m.m_binaryMap[py * w + px] = m_binaryMap[y * w + x];
+			Vector2d pos = matrix::translate2d(Vector2d(x, y), T);
+			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
+				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
 		}
 
 	return m;
@@ -91,15 +93,15 @@ Map Map::rotated(const float *R) const
 		for(unsigned y = 0; y < h; ++y)
 		{
 		// Finding the position after rotation
-			int px = R[0] * x + R[1] * y, py = R[2] * x + R[3] * y;
-			if(px >= 0 && px < w && py >= 0 && py < h)
-				m.m_binaryMap[py * w + px] = m_binaryMap[y * w + x];
+			Vector2d pos = matrix::rotate2d(Vector2d(x, y), R, Vector2d(w/2, h/2));
+			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
+				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
 		}
 	
 	return m;
 }
 
-Map Map::tr_map(const maths::Vector3f &T, const float *R) const
+Map Map::tr_map(const maths::Vector2d &T, const float *R) const
 {
 	Map m(w, h);
 	
@@ -107,16 +109,15 @@ Map Map::tr_map(const maths::Vector3f &T, const float *R) const
 		for(unsigned y = 0; y < h; ++y)
 		{
 		// Finding the position after translation and rotation (in this order)
-			int px = R[0] * (x + T.x) + R[1] * (y + T.y);
-    		int py = R[2] * (x + T.x) + R[3] * (y + T.y);
-			if(px >= 0 && px < w && py >= 0 && py < h)
-				m.m_binaryMap[py * w + px] = m_binaryMap[y * w + x];
+			Vector2d pos = matrix::rotate2d(matrix::translate2d(Vector2d(x, y), T), R, Vector2d(w/2, h/2));
+			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
+				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
 		}
 	
 	return m;
 }
 
-Map Map::rt_map(const float *R, const maths::Vector3f &T) const
+Map Map::rt_map(const float *R, const maths::Vector2d &T) const
 {
 	Map m(w, h);
 	
@@ -124,10 +125,9 @@ Map Map::rt_map(const float *R, const maths::Vector3f &T) const
 		for(unsigned y = 0; y < h; ++y)
 		{
 		// Finding the position after rotation and translation (in this order)
-			int px = R[0] * x + R[1] * y  +  T.x;
-    		int py = R[2] * x + R[3] * y  +  T.y;
-			if(px >= 0 && px < w && py >= 0 && py < h)
-				m.m_binaryMap[py * w + px] = m_binaryMap[y * w + x];
+			Vector2d pos = matrix::translate2d(matrix::rotate2d(Vector2d(x, y), R, Vector2d(w/2, h/2)), T);
+			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
+				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
 		}
 	
 	return m;

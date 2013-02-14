@@ -1,0 +1,19 @@
+CXX=g++
+CXXFLAGS=-W -Wall -ansi -pedantic
+
+all: libmaths.a
+
+libmaths.a: conversions_ppm.o conversions_pgm.o matrix.o vector.o
+	ar cr $@ $^
+
+conversions_ppm.o: conversions_ppm.cpp conversions.h
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+conversions_pgm.o: conversions_pgm.cpp conversions.h
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+matrix.o: matrix.cpp matrix.h
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+vector.o: vector.cpp vector.h
+	$(CXX) $(CXXFLAGS) -o $@ -c $<
+
+clean:
+	rm -rf *.o

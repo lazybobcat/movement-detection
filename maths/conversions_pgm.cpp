@@ -1,4 +1,5 @@
 #include "conversions.h"
+#include "matrix.h"
 
 #include <cmath>
 
@@ -39,47 +40,19 @@ Vector3f pgm::toRealCoordinates(const Vector2u &pixel, const float depth)
 
 Vector3f pgm::toRGBCameraCoordinates(const Vector2u &pixel, const float depth)
 {    
-    Vector3f real = toRealCoordinates(pixel, depth);
+    Vector3f realCoord = toRealCoordinates(pixel, depth);
 
-    // Rotate
-    float x = R[0] * real.x + R[1] * real.y + R[2] * real.z;
-    float y = R[3] * real.x + R[4] * real.y + R[5] * real.z;
-    float z = R[6] * real.x + R[7] * real.y + R[8] * real.z;
-
-    // Translate
-    x += T.x;
-    y += T.y;
-    z += T.z;
-
-    return Vector3f(x, y, z);
+	// Return the rotated then translated matrix
+    return matrix::translate3f(matrix::rotate3f(realCoord, R), T);
 }
 
 Vector2u pgm::toDepthImageCoordinates(const Vector3f &position)
 {
-    float x = position.x;
-    float y = position.y;
-    float z = position.z;
+	Vector3f coord = matrix::reverse_rotate3f(matrix::reverse_translate3f(position, T), R);
 
-    // Translate
-    x -= T.x;
-    y -= T.y;
-    z -= T.z;
-
-    /* In our case, R^-1 can be made like this :
-[ a b c
-  d e f
-  g h i ]
-===>
-[ a d g
-  b e h
-  c f i ] */
-
-    float dx = R[0] * x + R[3] * y + R[6] * z;
-    float dy = R[1] * x + R[4] * y + R[7] * z;
-    float dz = R[2] * x + R[5] * y + R[8] * z;
-
-    unsigned int u = (unsigned int)(roundf((dx * pgm::fx) / dz + pgm::cu));
-    unsigned int v = (unsigned int)(roundf((dy * pgm::fy) / dz + pgm::cv));
+    unsigned int u = (unsigned int)(roundf((coord.x * pgm::fx) / coord.z + pgm::cu));
+    unsigned int v = (unsigned int)(roundf((coord.y * pgm::fy) / coord.z + pgm::cv));
 
     return Vector2u(u, v);
 }
+
