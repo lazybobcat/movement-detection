@@ -11,7 +11,7 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
 {
     std::ifstream file(filepath.c_str(), std::ifstream::in | std::ios_base::binary);
     unsigned short *data;
-    unsigned fullsize, start;
+    unsigned fullsize;
 
     if(!file.is_open())
         throw std::ios_base::failure("Error opening file");
@@ -28,9 +28,7 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
         throw;
     }
 
-    fullsize = m_width * m_height;
-    start = m_width * m_start;
-
+	fullsize = m_width * m_height;
     data = new unsigned short[fullsize];
     m_pixels.reserve(fullsize);
 
@@ -38,22 +36,8 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
     {
     case BINARY:
         file.read((char *)data, fullsize * sizeof(unsigned short));
-
-        /*
-          The first loop fill the 40% of the image's top with black
-          The second loop use data read
-          This save the 60% of the image's bottom, keeping the original image size
-          for compatibility with the other format (ppm)
-          */
-        // HERE
-        // alors, décommenter la ligne ci dessous pour ne plus appliquer le filtre noir :
-
-        // start = 0; // don't fill with black
-        for(unsigned i = 0; i < start; ++i)
-            m_pixels.push_back(0);
-        for(unsigned i = start; i < fullsize; ++i)
+        for(unsigned i = 0; i < fullsize; ++i)
             m_pixels.push_back(data[i]);
-
         break;
     default:;
     }
@@ -63,7 +47,7 @@ void pgm::Image::loadFromFile(const std::string& filepath) throw(std::exception)
     file.close();
 }
 
-void pgm::Image::saveToFile(const std::string& filepath) throw(std::exception)
+void pgm::Image::saveToFile(const std::string &filepath) throw(std::exception)
 {
     std::ofstream file(filepath.c_str(), std::ifstream::out | std::ios_base::binary);
 
@@ -81,6 +65,7 @@ void pgm::Image::saveToFile(const std::string& filepath) throw(std::exception)
         break;
     default:;
     }
+    
     file.close();
 }
 
@@ -130,7 +115,6 @@ void pgm::Image::loadHeaderFromFile(std::ifstream &file)
         throw std::runtime_error("Error : invalid file format");
 
     ss >> m_width >> m_height >> m_colorDepth;
-    m_start = m_height * .4;
 }
 
 void pgm::Image::close()
@@ -140,5 +124,5 @@ void pgm::Image::close()
     m_height = 0;
     m_imgType = UNKNOWN;
     m_colorDepth = 255;
-    m_start = 0;
 }
+

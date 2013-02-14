@@ -1,6 +1,7 @@
 #include <iostream>
 
 #include "map.h"
+#include "../maths/matrix.h"
 
 using namespace carto;
 using namespace pgm;
@@ -8,20 +9,17 @@ using namespace pgm;
 int main()
 {
 	maths::Vector2d T = maths::Vector2d(0, 50);
-	float R[4] = {0, -1, 1, 0}; 					// 90°
+	float R[4];
+	
+	maths::matrix::rotationMatrix2d(R, 3.141592/2);
 
     try
     {
 		Map m1(Image("../images/valide.pgm"));
 		Map m2(Image("../images/valide.pgm"));
 		
-		m1.saveMap("map1");
-		m2.saveMap("map2");
-		
-		m2.translated(T).saveMap("translated");
+		m1.saveMap("map");
 		m2.rotated(R).saveMap("rotated");
-		m2.rt_map(R, T).saveMap("rt_map");
-		m2.tr_map(T, R).saveMap("tr_map");
     }
     catch(std::exception e)
     {

@@ -12,7 +12,9 @@ using namespace carto::maths;
 Map::Map(const pgm::Image &pgmImage, unsigned short w, unsigned short h)
 	: w(w)
 {
-	this->h = (pgmImage.maxDepth() * 100 > h) ? pgmImage.maxDepth() * 100 : h;
+	float max = pgmImage.maxDepth() * 100;
+
+	this->h = max > h ? max : h;
 	makeMap(pgmImage);
 }
 
@@ -67,9 +69,6 @@ void Map::saveMap(const std::string &fileName) const
     file.close();
 }
 
-/*
- * T.z is not used because this map is 2D
- */
 Map Map::translated(const maths::Vector2d &T) const
 {
 	Map m(w, h);
@@ -134,7 +133,7 @@ Map Map::rt_map(const float *R, const maths::Vector2d &T) const
 }
 
 /*
- * This method must be called on two same sized maps !
+ * This method should be called on two same sized maps !
  */
 Map Map::operator+(const Map &other) const
 {

@@ -119,7 +119,6 @@ namespace carto
             IMG_TYPE                    m_imgType;      ///< The image type (from magic number) (ASCII or BINARY for respectively "P2" and "P5")
             unsigned short              m_width;        ///< The image width in pixels
             unsigned short              m_height;       ///< The image height in pixels
-            unsigned short              m_start;        ///< The image start height
             unsigned int                m_colorDepth;   ///< The color depth should be 65536 (from 0 to 65535)
             std::vector<unsigned short> m_pixels;       ///< The image's pixels
         };

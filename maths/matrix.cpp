@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <cmath>
 
 using namespace carto::maths;
 
@@ -60,5 +61,18 @@ Vector3f matrix::reverse_rotate3f(const Vector3f &obj, const float *R, const Vec
 	return Vector3f((obj.x - center.x) * R[0] + (obj.y - center.y) * R[3] + (obj.z - center.z) * R[6] + center.x,
 					(obj.x - center.x) * R[1] + (obj.y - center.y) * R[4] + (obj.z - center.z) * R[7] + center.y,
 					(obj.x - center.x) * R[2] + (obj.y - center.y) * R[5] + (obj.z - center.z) * R[8] + center.z);
+}
+
+void matrix::rotationMatrix2d(float *R, float angle)
+{
+	R[0] = cos(angle);
+	R[1] = -sin(angle);
+	R[2] = sin(angle);
+	R[3] = cos(angle);
+}
+        	
+void matrix::rotationMatrix3f(float *R, float angle)
+{
+	// Not implemented yet
 }
 
