@@ -83,13 +83,6 @@ namespace carto
         	 * @param angle the angle in radians
         	 */
         	void rotationMatrix2d(float *R, float angle);
-        	
-        	/**
-        	 * @brief returns a rotation matrix (2D)
-        	 * @param R the rotation matrix to be filled (4 float)
-        	 * @param angle the angle in radians
-        	 */
-        	void rotationMatrix3f(float *R, float angle);
         }
     }
 }

@@ -70,9 +70,4 @@ void matrix::rotationMatrix2d(float *R, float angle)
 	R[2] = sin(angle);
 	R[3] = cos(angle);
 }
-        	
-void matrix::rotationMatrix3f(float *R, float angle)
-{
-	// Not implemented yet
-}
 
