@@ -3,6 +3,11 @@
 
 #include "vector.h"
 
+/* Macro to convert any degree value into radian value */
+#define CONVERT_DTOR(angle)	((angle%360) * 3.141592 / 180.f)
+/* Macro to convert any radian value into degree value */
+#define CONVERT_RTOD(angle) ((angle * 180.f / 3.141592)
+
 namespace carto
 {
     namespace maths
