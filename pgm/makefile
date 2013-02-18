@@ -1,9 +1,10 @@
 CXX=g++
 CXXFLAGS=-W -Wall -ansi -pedantic
+OUTPUT=libimage_pgm.a
 
-all: libimage_pgm.a
+all: $(OUTPUT)
 
-libimage_pgm.a: image.o file.o
+$(OUTPUT): image.o file.o
 	ar cr $@ $^
 
 image.o: image.cpp image.h
@@ -12,4 +13,4 @@ file.o: file.cpp
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.o
+	rm -rf *.o $(OUTPUT)

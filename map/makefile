@@ -1,16 +1,26 @@
 CXX=g++
 CXXFLAGS=-W -Wall -ansi -pedantic
 LDFLAGS=-L . -lmaths -limage_pgm
+LIBS=libmaths.a libimage_pgm.a
+OUTPUT=libmap.a
 
-all: map
+all: $(OUTPUT)
 
-map: main.o map.o
-	$(CXX) -o $@ $^ $(LDFLAGS)
+$(OUTPUT): map.o
+	ar cr $@ $^
 
-main.o: main.cpp map.h
-	$(CXX) $(CXXFLAGS) -o $@ -c $<
 map.o: map.cpp map.h
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
+libmaths.a: ../maths/libmaths.a
+	cp ../maths/libmaths.a .
+libimage_pgm.a: ../pgm/libimage_pgm.a
+	cp ../pgm/libimage_pgm.a .
+
+../maths/libmaths.a:
+	make -C ../maths
+../pgm/libimage_pgm.a:
+	make -C ../pgm
+
 clean:
-	rm -rf main.o map.o map
+	rm -rf *.o $(LIBS) $(OUTPUT)

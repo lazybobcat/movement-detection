@@ -1,9 +1,10 @@
 CXX=g++
 CXXFLAGS=-W -Wall -ansi -pedantic
+OUTPUT=libmaths.a
 
-all: libmaths.a
+all: $(OUTPUT)
 
-libmaths.a: conversions_ppm.o conversions_pgm.o matrix.o vector.o
+$(OUTPUT): conversions_ppm.o conversions_pgm.o matrix.o vector.o
 	ar cr $@ $^
 
 conversions_ppm.o: conversions_ppm.cpp conversions.h
@@ -16,4 +17,4 @@ vector.o: vector.cpp vector.h
 	$(CXX) $(CXXFLAGS) -o $@ -c $<
 
 clean:
-	rm -rf *.o
+	rm -rf *.o $(OUTPUT)
