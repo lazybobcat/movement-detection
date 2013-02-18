@@ -1,19 +1,13 @@
 CXX=g++
 CXXFLAGS=
-LDFLAGS=-L . -lmaths -limage_pgm -lmap
-OUTPUT=bin
+LDFLAGS=-L maths -lmaths -L pgm -limage_pgm -L map -lmap
+LIBS=maths/libmaths.a pgm/libimage_pgm.a map/libmap.a
+OUTPUT=getkmap
 
 all: $(OUTPUT)
 
-$(OUTPUT): main.cpp libmaths.a libimage_pgm.a libmap.a
+$(OUTPUT): main.cpp $(LIBS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
-
-libmaths.a: maths/libmaths.a
-	cp maths/libmaths.a .
-libimage_pgm.a: pgm/libimage_pgm.a
-	cp pgm/libimage_pgm.a .
-libmap.a: map/libmap.a
-	cp map/libmap.a .
 
 maths/libmaths.a:
 	make -C maths
