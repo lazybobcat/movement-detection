@@ -13,7 +13,7 @@ int numerotation(carto::ppm::Image& binarizedImage, std::vector<int>& numerotedI
     for(unsigned int j = 1; j < binarizedImage.height(); ++j)
     {
         // Travelling the picture on X-axis (rows)
-        for(unsigned int i = 1; i < binarizedImage.width()-1; ++i)
+        for(int i = 1; i < binarizedImage.width()-1; ++i)
         {
             // If the pixel is white, it will be added to the shapes map. But we need to look at
             // neighbors pixels to number it correctly. As we travel in the picture from top left to bottom right,
