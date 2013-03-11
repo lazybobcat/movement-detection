@@ -33,3 +33,17 @@ ensuite, choisir l'unité "centimètres" et modifier la valeur
 de hauteur pour 11.5 environ. Valider (bouton "Échelle")
 Ctrl-Shift-E pour exporter au format png
 Valider l'exportation, et quitter (sans sauvegarder, c'est exporté)
+
+2.2 Légende / Titre
+J'ai trouvé comment applique proprement une légende avec LibreOffice
+En voici les paramètres à respecter :
+
+(je mets des " " lorsque c'est une chaîne de caractères.
+Il faut bien entendu n'écrire que le contenu)
+Catégorie : "Figure"
+Numérotation : Arabe
+Séparateur : " :" AVEC un espace avant
+Position : Infra
+Légende : à vous d'être pertinents
+
+Pensez à centrer.
