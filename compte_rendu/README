@@ -1,0 +1,35 @@
+Sommaire :
+0. Introduction à l'utilisation de ce fichier
+1. Titres
+2. Images
+
+#############################################
+
+0. Introduction à l'utilisation de ce fichier
+
+0.1. Accès au contenu ?
+Je conseille un Ctrl-F (Ctrl-W sous nano) sur "1. Titres" par exemple
+en copiant/collant depuis le sommaire, afin d'arriver rapidement
+à ce que vous recherchez.
+
+0.2. Format d'un paragraphe
+a.b. titre
+règles
+[How to ? un moyen de respecter la règle]
+
+0.3. Bonne lecture (je sais pas encore quoi dire d'autre).
+
+1. Titres
+En cours de complétion
+
+2. Images
+
+2.1. Dimensions
+Toutes les grosses images doivent être retaillées pour posséder
+une hauteur proche de 11.5 centimètres
+How to ? via Gimp par exemple : ouvrir l'image, onglet "Image"
+le bouton "Échelle" ou quelque chose comme ça,
+ensuite, choisir l'unité "centimètres" et modifier la valeur
+de hauteur pour 11.5 environ. Valider (bouton "Échelle")
+Ctrl-Shift-E pour exporter au format png
+Valider l'exportation, et quitter (sans sauvegarder, c'est exporté)
