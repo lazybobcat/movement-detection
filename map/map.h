@@ -39,6 +39,12 @@ namespace carto
     	Map(const pgm::Image &pgmImage, unsigned short w = 1000, unsigned short h = 500);
     	
     	/**
+    	 * @brief Construct from a kmap file, using loadMap
+    	 * @param fileName the file name to be loaded
+    	 */
+    	Map(const std::string &fileName);
+    	
+    	/**
     	 * @brief Copy constructor
     	 * @param other the original Map
     	 */
@@ -51,10 +57,17 @@ namespace carto
         void makeMap(const pgm::Image &pgmImage);
 
         /**
-          * @brief This method save the new map for using by IHM.
-          *        Final map format : V for empty and R for not empty.
-          */
+         * @brief This method save the new map for using by IHM.
+         *        Final map format : V for empty and R for not empty.
+         * @param fileName the file name where save the map
+         */
         void saveMap(const std::string &fileName) const;
+        
+        /**
+         * @brief This method load an old map
+         * @param fileName the file name where load the map.
+         */
+        void loadMap(const std::string &fileName);
         
         /**
          * @brief Returns a translated map. Do not modify the map itself
@@ -69,22 +82,6 @@ namespace carto
          * @return The rotated map
          */
         Map rotated(const float *R) const;
-        
-        /**
-         * @brief Returns a translated then rotated map. Do not modify the map itself
-         * @param T : vector of translation
-         * @param R : matrix of rotation 2*2
-         * @return The translated then rotated map
-         */
-        Map tr_map(const maths::Vector2d &T, const float *R) const;
-        
-        /**
-         * @brief Returns a rotated then translated map. Do not modify the map itself
-         * @param R : matrix of rotation 2*2
-         * @param T : vector of translation
-         * @return The rotated then translated map
-         */
-        Map rt_map(const float *R, const maths::Vector2d &T) const;
          
          /**
           * @brief Operator +

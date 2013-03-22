@@ -20,13 +20,14 @@ int main()
     	Deux images chargées, sauvées, translatées, rotatées (...), bref... Si vous voulez regarder.
     	Tout s'ouvre via leur IHM.
     */
-		Map m1(Image("../images/valide.pgm"));
+		Map m1("map");
 		Map m2(Image("../images/valide.pgm"));
 		
-		m1.saveMap("map");
+		m1.saveMap("map.cp");
 		m2.rotated(R90).saveMap("rotated90");
 		m2.translated(T).saveMap("translated");
 		m2.rotated(R135).saveMap("rotated135");
+		m2.rotated(R90).translated(T).saveMap("randtmap");
 		
 		(m2.rotated(R90) + m2.translated(T) + m2.rotated(R135) + m2).saveMap("allmaps");
     }

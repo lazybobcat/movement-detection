@@ -18,6 +18,11 @@ Map::Map(const pgm::Image &pgmImage, unsigned short w, unsigned short h)
 	makeMap(pgmImage);
 }
 
+Map::Map(const std::string &fileName)
+{
+	loadMap(fileName);
+}
+
 Map::Map(unsigned short w, unsigned short h)
 	: w(w), h(h)
 {
@@ -69,6 +74,40 @@ void Map::saveMap(const std::string &fileName) const
     file.close();
 }
 
+void Map::loadMap(const std::string &fileName)
+{
+	std::ifstream file((fileName + ".kmap").c_str());
+	std::string line;
+	float rotation[4];	// This will be used at the end of this method
+
+    if(!file.is_open())
+        throw std::ios_base::failure("Error opening file for loading kmap image.");
+        
+    w = 0;	// w not set 
+    // Thanks to this loop, the h variable will be set correctly, while reading the file
+    // and during the loop, its value is the "x" value (line number)
+    for(h = 0; file.good(); ++h)
+    {
+    	getline(file, line);
+    	if(!w)						/* if w is not already set */
+    		w = line.size() - 1;	/* We set w at line.size() - 1 (removing \n)
+    								 * If the file is correct, line.size() - 1 is
+    								 * constant so we can do this 
+    								 */
+    	for(int y = w - 1; y >= 0; --y)
+    		m_binaryMap.push_back(line[y] == 'R');
+    }
+
+	file.close();
+
+	/* After reading the file, the binary map is 
+	 * 180° rotated. So we apply the same rotation
+	 * to correct it
+	 */
+    maths::matrix::rotationMatrix2d(rotation, CONVERT_DTOR(180));
+    *this = this->rotated(rotation);
+}
+
 Map Map::translated(const maths::Vector2d &T) const
 {
 	Map m(w, h);
@@ -93,38 +132,6 @@ Map Map::rotated(const float *R) const
 		{
 		// Finding the position after rotation
 			Vector2d pos = matrix::rotate2d(Vector2d(x, y), R, Vector2d(w/2, h/2));
-			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
-				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
-		}
-	
-	return m;
-}
-
-Map Map::tr_map(const maths::Vector2d &T, const float *R) const
-{
-	Map m(w, h);
-	
-	for(unsigned x = 0; x < w; ++x)
-		for(unsigned y = 0; y < h; ++y)
-		{
-		// Finding the position after translation and rotation (in this order)
-			Vector2d pos = matrix::rotate2d(matrix::translate2d(Vector2d(x, y), T), R, Vector2d(w/2, h/2));
-			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
-				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
-		}
-	
-	return m;
-}
-
-Map Map::rt_map(const float *R, const maths::Vector2d &T) const
-{
-	Map m(w, h);
-	
-	for(unsigned x = 0; x < w; ++x)
-		for(unsigned y = 0; y < h; ++y)
-		{
-		// Finding the position after rotation and translation (in this order)
-			Vector2d pos = matrix::translate2d(matrix::rotate2d(Vector2d(x, y), R, Vector2d(w/2, h/2)), T);
 			if(pos.x >= 0 && pos.x < w && pos.y >= 0 && pos.y < h)
 				m.m_binaryMap[pos.y * w + pos.x] = m_binaryMap[y * w + x];
 		}
