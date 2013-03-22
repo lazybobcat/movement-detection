@@ -2,11 +2,20 @@ CXX=g++
 CXXFLAGS=
 LDFLAGS=-L maths -lmaths -L pgm -limage_pgm -L map -lmap
 LIBS=maths/libmaths.a pgm/libimage_pgm.a map/libmap.a
-OUTPUT=getkmap
+OUTPUT=tokmap addkmap tkmap rkmap
 
 all: $(OUTPUT)
 
-$(OUTPUT): main.cpp $(LIBS)
+tokmap: tools/tokmap.cpp $(LIBS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+addkmap: tools/addkmap.cpp $(LIBS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+tkmap: tools/tkmap.cpp $(LIBS)
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+rkmap: tools/rkmap.cpp $(LIBS)
 	$(CXX) -o $@ $^ $(LDFLAGS)
 
 maths/libmaths.a:
